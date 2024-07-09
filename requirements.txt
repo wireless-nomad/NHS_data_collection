@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+smtplib
+email
+tabula-py
+pandas
+pyodbc
