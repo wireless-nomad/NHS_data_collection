@@ -355,50 +355,53 @@ def insert_data(all_data_frames):
     close_db_connection(cursor,conn)
 # Functions ----------------------------------------------------------------
 
+def main():
+    # Step 1: get the latest pdf url
+    latest_pdf_url = get_the_latest_pdf_url(full_url)
+    # Step 2: download the pdf
+    new_file_path = download_pdf(latest_pdf_url, save_directory_path)
 
-# Step 1: get the latest pdf url
-latest_pdf_url = get_the_latest_pdf_url(full_url)
-# Step 2: download the pdf
-new_file_path = download_pdf(latest_pdf_url, save_directory_path)
+    # Step 3: sleep to make sure the file is downloaded
+    time.sleep(5)
 
-# Step 3: sleep to make sure the file is downloaded
-time.sleep(5)
+    # Step 4: create dataframes
+    if not os.path.exists(save_directory_path):
+        os.makedirs(save_directory_path)
+    if latest_pdf_url:
+        file_name = latest_pdf_url.split('/')[-1]
+        all_data_frames = create_data_frames(new_file_path)
 
-# Step 4: create dataframes
-if not os.path.exists(save_directory_path):
-    os.makedirs(save_directory_path)
-if latest_pdf_url:
-    file_name = latest_pdf_url.split('/')[-1]
-    all_data_frames = create_data_frames(new_file_path)
-
-else:
-    email_error("Failed to create the dataframes for the PI files")
-    print("Failed to create the dataframes for the PI files")
+    else:
+        email_error("Failed to create the dataframes for the PI files")
+        print("Failed to create the dataframes for the PI files")
 
 
-# step 5: send data to the database
-insert_data(all_data_frames)
-# sleep to make sure the data is inserted
-time.sleep(5)
+    # step 5: send data to the database
+    insert_data(all_data_frames)
+    # sleep to make sure the data is inserted
+    time.sleep(5)
 
-# PI version
-# # Step 1: get the latest pdf url
-pi_latest_pdf_url = get_the_latest_pdf_url(pi_full_url)
-# # Step 2: download the pdf 
-pi_new_file_path = download_pdf(pi_latest_pdf_url, pi_save_directory_path)
-# Step 3: sleep to make sure the file is downloaded
-time.sleep(5)
+    # PI version
+    # # Step 1: get the latest pdf url
+    pi_latest_pdf_url = get_the_latest_pdf_url(pi_full_url)
+    # # Step 2: download the pdf 
+    pi_new_file_path = download_pdf(pi_latest_pdf_url, pi_save_directory_path)
+    # Step 3: sleep to make sure the file is downloaded
+    time.sleep(5)
 
-# Step 4: create dataframes
-if not os.path.exists(pi_save_directory_path):
-    os.makedirs(pi_save_directory_path)
-if pi_latest_pdf_url:
-    pi_file_name = pi_latest_pdf_url.split('/')[-1]
+    # Step 4: create dataframes
+    if not os.path.exists(pi_save_directory_path):
+        os.makedirs(pi_save_directory_path)
+    if pi_latest_pdf_url:
+        pi_file_name = pi_latest_pdf_url.split('/')[-1]
 
-    pi_all_data_frames = create_data_frames(pi_new_file_path)
-else:
-    email_error("Failed to create the dataframes for the PI files")
-    print("Failed to create the dataframes for the PI files")
+        pi_all_data_frames = create_data_frames(pi_new_file_path)
+    else:
+        email_error("Failed to create the dataframes for the PI files")
+        print("Failed to create the dataframes for the PI files")
 
-# step 5: send data to the database
-insert_data(pi_all_data_frames)
+    # step 5: send data to the database
+    insert_data(pi_all_data_frames)
+    
+if __name__ == "__main__":
+    main()
