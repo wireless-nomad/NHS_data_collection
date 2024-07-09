@@ -1,7 +1,6 @@
 # NHS Data Collection
 
-This repository contains a collection of Python scripts designed to collect various free NHS data. The scripts use public APIs and web scraping techniques to gather information on different aspects of the NHS, including hospital performance, drug prices, waiting times, and more.
-
+This repository contains a collection of Python scripts designed to collect various free NHS data. The scripts use public APIs and web scraping techniques to gather information on different aspects of the NHS.
 ## Table of Contents
 
 - [Getting Started](#getting-started)
